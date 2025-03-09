@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бои за Курск Карта</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0ead6; /* Светлый бежевый фон */
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 1.5em 0;
+            border-bottom: 3px solid #c4a89f; /* Легкий контур */
+            background: linear-gradient(to right, #e4d7c4, #d9b8a3); /* Плавный градиент */
+            color: #333;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1920px;
+            margin: 0 auto;
+            display: flex;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .map-container {
+            flex-grow: 1;
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar {
+            width: 300px;
+            padding: 20px;
+            background: linear-gradient(to bottom, #e4d7c4, #d9b8a3);
+            border-radius: 10px;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+            height: 100%;
+            overflow-y: auto;
+            margin-left: 20px;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .sidebar .flag {
+            width: 50px;
+            height: 30px;
+            background: linear-gradient(to bottom, #0057b7 50%, #ffd700 50%);
+            border: 2px solid #c4a89f;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .sidebar .controls {
+            margin-top: 20px;
+        }
+
+        .sidebar .controls label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .sidebar .controls input {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 15px;
+            background-color: #f5f5dc;
+            color: #333;
+            border: 1px solid #d9b8a3;
+            border-radius: 5px;
+        }
+
+        footer {
+            background-color: #e4d7c4;
+            color: #333;
+            text-align: center;
+            padding: 1.5em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 2px solid #c4a89f;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .sidebar .nav-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #d9b8a3;
+            border: 1px solid #c4a89f;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .sidebar .nav-item:hover {
+            background-color: #e4d7c4;
+        }
+
+        .sidebar .nav-item img {
+            margin-right: 10px;
+        }
+
+        /* Стиль для текста, который будет появляться вместо карты */
+        #article-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный фон */
+            display: none;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 10;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #article-container p {
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .close-button {
+            padding: 10px 20px;
+            background-color: #d9b8a3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .close-button:hover {
+            background-color: #c4a89f;
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>БОИ ЗА КУРСК КАРТА</h1>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="flag"></div>
+            <h2>ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ</h2>
+            <p>Здесь может быть текст о героизме украинских воинов во время боев за Курск, ссылки на исторические документы и т.д.</p>
+            
+            <div class="controls">
+                <label for="date">Дата:</label>
+                <input type="date" id="date" value="2025-03-09">
+            </div>
+
+            <div class="nav-item" onclick="showArticle()">
+                <img src="https://img.icons8.com/material-outlined/24/000000/bar-chart.png" alt="Analytics">
+                Аналитика
+            </div>
+        </div>
+
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/d/embed?mid=1W81rWbQ_LNtGIn4Mt62qFmXEIkFIquA&ehbc=2E312F&noprof=1" width="100%" height="100%"></iframe>
+            <div id="article-container">
+                <p>В Курской области Россия сконцентрировала значительные силы для возможного наступления. В частности, было развернуто новейшее подразделение беспилотников, которое уже доказало свою эффективность в предыдущих операциях. Вместе с этим в группировку вошли сотни военных из Северной Кореи, а также российская морская пехота и десантники. Об этом пишет Forbes. Сообщается, что Российские войска воспользовались ослаблением военной поддержки Украины со стороны Запада, приступив к активным наступательным действиям. Это создало угрозу оцепления важных оборонных позиций и усложнило логистику для украинских защитников. Кроме того, "Украинской правде" сообщили в Генеральном штабе Украины, что ситуация в Курске, с августа частично контролируемая украинскими войсками, остается сложной, но контролируемой. Однако пока неизвестно, как именно украинские военные планируют противодействовать новой российской тактике, сочетающей в себе использование элитных подразделений беспилотников и поддержку северокорейских военных. Россия продолжает использовать 177-й полк морской пехоты, 810-ю бригаду морской пехоты и 11-ю десантно-штурмовую бригаду, получивших подкрепление из Северной Кореи. После значительных потерь в предварительных атаках на Курское выступление, 11-й армейский корпус КНДР отошел с линии фронта в декабре или январе, однако впоследствии вернулся с новыми резервами. На стороне Украины большое преимущество в виде беспилотников, однако российские силы в значительной степени ослабили его благодаря активному использованию Центра перспективных беспилотных систем "Рубикон". Дроны "Рубикона" атакуют небольшие участки дорог, насыщая их беспилотными устройствами, наносящими удар по транспортным средствам по разным направлениям.</p>
+                <button class="close-button" onclick="closeArticle()">Понял</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Бои за Курск Карта</p>
+    </footer>
+
+    <script>
+        function showArticle() {
+            // Скрываем карту
+            document.querySelector('.map-container iframe').style.display = 'none';
+            // Показываем статью
+            document.getElementById('article-container').style.display = 'block';
+        }
+
+        function closeArticle() {
+            // Показываем карту
+            document.querySelector('.map-container iframe').style.display = 'block';
+            // Скрываем статью
+            document.getElementById('article-container').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+
